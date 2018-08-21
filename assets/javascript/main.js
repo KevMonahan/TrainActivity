@@ -7,33 +7,58 @@ var config = {
     messagingSenderId: "43068438357"
   };
   firebase.initializeApp(config);
+  var database = firebase.database();
 
 $(document).ready(function() {
 
+    $("#submit").on("click", function(event) {
+        event.preventDefault();
+      
+      
+          trainName = $("#trainName").val();
+      
+          destination = $("#destination").val();
+      
+          firstTrain = $("#firstTrain").val();
+      
+          frequency = $("#frequency").val();
+      
+        $("#trainName").val("");
+        $("#destination").val("");
+        $("#firstTrain").val("");
+        $("#frequency").val("");
+      
+          database.ref().push({
+      
+              trainName: trainName,
+              destination: destination,
+              firstTrain: firstTrain,
+              frequency: frequency
+      
+          });
+      });
+
+      database.ref().on("child_added", function(childSnapshot) {
 
 
 
-
-    var tFrequency = 3;
-
+        var firstTimeConverted = moment(childSnapshot.val().firstTrain, "hh:mm").subtract(1, "days");
+  
+         var timeDiff = moment().diff(moment(firstTimeConverted), "minutes");
     
-    var firstTime = "03:30";
-
-    var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
-
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-
-    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
-
-    var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
-
-    var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+      var remainder = timeDiff % childSnapshot.val().frequency;
+    
+      var minsUntilTrain = childSnapshot.val().frequency - remainder;
+   
+      var nextTrainTime = moment().add(minsUntilTrain, "minutes");
+    
+            
+      $("#schedule > tbody").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" + childSnapshot.val().destination + "</td><td>" +
+          childSnapshot.val().frequency + "</td><td>" + moment(nextTrainTime).format("hh:mm") + "</td><td>" + minsUntilTrain + "</td></tr>");
+  
+           
+      }, function(err) {
+        console.log("Errors handled: " + err);
+  
+  });
 })

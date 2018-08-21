@@ -20,36 +20,43 @@
     <div class="jumbotron">
         <h1 style="text-align: center;">Check the Status of Your Train Apparatus</h1>
     </div>
-    <table id="outputTable">
-        <thead class="headOfTable">Currently Recorded Schedule</thead>
-        <tbody id="tBody">
-            <tr>
+    <h2>Current Recorded Schedule</h2>
+    <table id="schedule" class="col-md-12 table table-striped">
+        <thead class="col-md-12">
+            <th>Train Name</th>
+            <th>Destination</th>
+            <th>Frequency (min)</th>
+            <th>Next Arrival</th>
+            <th>Minutes Away</th>
+        </thead>
+        <tbody id="tBody" class="col-md-12">
 
-            </tr>
         </tbody>
     </table>
     <table id="inputTable">
         <thead class="headOfTable"></thead>
         <form role="form">
             <div class="form-group row">
-                <label for="name-input">Train Name:</label>
-                <input class="form-control" id="train-name-input" type="text">
+                <label for="trainName">Train Name:</label>
+                <input class="form-control" id="trainName" type="text" placeholder="midnight train">
             </div>
             <div class="form-group row">
-                <label for="email-input">Destination:</label>
-                <input class="form-control" id="destination-input" type="email">
+                <label for="destination">Destination:</label>
+                <input class="form-control" id="destination" type="text" placeholder="anywhere">
             </div>
             <div class="form-group row">
-                <label for="age-input">First Train Time:</label>
-                <input class="form-control" id="time-input" type="number">
+                <label for="firstTrain">First Train Time:</label>
+                <input class="form-control" id="firstTrain" type="text" placeholder="3:00">
             </div>
             <div class="form-group row">
-                <label for="comment-input">Frequency</label>
-                <input class="form-control" id- "text-input" type="number">
+                <label for="frequency">Frequency (min)</label>
+                <input class="form-control" id="frequency" type="number" placeholder="7 minutes">
             </div>
-            <button class="btn btn-default" id="add-to-schedule" type="submit">Submit</button>
+            <button class="btn btn-default" id="submit" type="submit">Submit</button>
         </form>
     </table>
+    </div>
+
 </body>
 
 </html>
